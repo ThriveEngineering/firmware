@@ -180,6 +180,31 @@ public:
     }
 };
 
+class Semaphore {
+    os_semaphore_t handle_;
+public:
+    Semaphore(unsigned max, unsigned initial) : handle_(nullptr) {
+        os_semaphore_create(&handle_, max, initial);
+    }
+
+    void dispose()
+    {
+        if (handle_) {
+            os_semaphore_destroy(handle_);
+            handle_ = nullptr;
+        }
+    }
+
+    //void lock() { os_semaphore_lock(handle_); }
+    int take(system_tick_t timeout)
+    {
+        return os_semaphore_take(handle_, timeout, false);
+    }
+    int give()
+    {
+        return os_semaphore_give(handle_, false);
+    }
+};
 #define SINGLE_THREADED_SECTION()  SingleThreadedSection __cs;
 
 #define SINGLE_THREADED_BLOCK() for (bool __todo = true; __todo; ) for (SingleThreadedSection __cs; __todo; __todo=0)

@@ -61,6 +61,11 @@ DYNALIB_FN(24, hal_concurrent, os_queue_destroy, int(os_queue_t, void*))
 DYNALIB_FN(25, hal_concurrent, os_queue_put, int(os_queue_t, const void* item, system_tick_t, void*))
 DYNALIB_FN(26, hal_concurrent, os_queue_take, int(os_queue_t, void* item, system_tick_t, void*))
 
+DYNALIB_FN(27, hal_concurrent, os_semaphore_create, int(os_semaphore_t *, unsigned, unsigned))
+DYNALIB_FN(28, hal_concurrent, os_semaphore_destroy, int(os_semaphore_t))
+DYNALIB_FN(29, hal_concurrent, os_semaphore_take, int(os_semaphore_t, system_tick_t, bool))
+DYNALIB_FN(30, hal_concurrent, os_semaphore_give, int(os_semaphore_t, bool))
+
 #endif
 
 DYNALIB_END(hal_concurrent)
