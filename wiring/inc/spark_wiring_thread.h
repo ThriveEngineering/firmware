@@ -226,8 +226,34 @@ public:
     void lock() { os_mutex_recursive_lock(handle_); }
     bool trylock() { return os_mutex_recursive_trylock(handle_)==0; }
     void unlock() { os_mutex_recursive_unlock(handle_); }
-
 };
+
+class Semaphore {
+    os_semaphore_t handle_;
+public:
+    Semaphore(unsigned max, unsigned initial) : handle_(nullptr) {
+        os_semaphore_create(&handle_, max, initial);
+    }
+
+    void dispose()
+    {
+        if (handle_) {
+            os_semaphore_destroy(handle_);
+            handle_ = nullptr;
+        }
+    }
+
+    //void lock() { os_semaphore_lock(handle_); }
+    int take(system_tick_t timeout)
+    {
+        return os_semaphore_take(handle_, timeout, false);
+    }
+    int give()
+    {
+        return os_semaphore_give(handle_, false);
+    }
+};
+
 
 #endif // PLATFORM_THREADING
 
